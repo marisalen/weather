@@ -1,11 +1,73 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { Inter } from '@next/font/google'
+import { Poppins } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import { useState } from 'react'
 import axios from 'axios'
+import styled from 'styled-components'
 
-const inter = Inter({ subsets: ['latin'] })
+const poppins = Poppins({ subsets: ['latin'], weight: ['400'] })
+
+
+const Main = styled.main`
+background-image: url('/colorfulblob.jpg');
+  background-size: cover;
+`
+
+const Title = styled.div`
+font-weight: 800;
+font-family: 'Sofia Sans', sans-serif;
+font-size: 50px;
+color: #FFFFFF;
+padding: 15px;
+border-radius: 5px;
+`
+const Input = styled.input`
+font-family: 'Sofia Sans', sans-serif;
+font-size: 20px;
+border-bottom: 3px solid black;
+border-top: none;
+border-right: none;
+border-left: none;
+padding: 10px;
+border-radius: 4px;
+background: rgba(255, 255, 255, .7);
+`
+
+const WeatherCont = styled.main`
+background: rgba(255, 255, 255, .7);
+padding: 20px;
+border-radius: 10px;
+font-family: 'Sofia Sans', sans-serif;
+width: 200px;
+`
+
+const TitleCont = styled.div`
+font-size: 25px;
+font-weight: 800;
+color: #FF5733 ;
+`
+
+const DescCont = styled.div`
+margin-bottom: 20px;
+`
+const TempCont = styled.div`
+font-size: 20px;
+`
+const FLCont = styled.div`
+font-size: 12px;
+font-style: italic;
+margin-bottom: 20px;
+`
+const WindCont = styled.div`
+
+`
+
+const WindTitle = styled.div`
+font-weight: 700;
+font-size: 20px;
+`
+
 
 export default function Home() {
 
@@ -50,9 +112,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        {data.name}
-        <input
+      <Main className={styles.main}>
+        <Title>{data.name}</Title>
+        <Input
         value={location}
         onChange={event => setLocation(event.target.value)}
         placeholder="Enter Location"
@@ -62,17 +124,21 @@ export default function Home() {
         {
           weather && weather.map((w, index) =>{
             return(
-              <div key={index}>
-                <div>{w.description}</div>
-                <div>{w.main}</div>
-                <div>{data.main.temp}</div>
-                <div>{data.main.feels_like}</div>
-                <div>{data.wind.speed}</div>
+              <WeatherCont>
+                <div key={index}>                
+                <TitleCont>{w.main}</TitleCont>
+                <DescCont>{w.description}</DescCont>
+                <TempCont>{data.main.temp} °C</TempCont>
+                <FLCont>Feels like {data.main.feels_like} °C</FLCont>
+                <WindTitle>Wind</WindTitle>
+                <WindCont>{data.wind.speed} m/s</WindCont>
               </div>
+              </WeatherCont>
+ 
             )
           })
         }
-      </main>
+      </Main>
     </>
   )
 }
